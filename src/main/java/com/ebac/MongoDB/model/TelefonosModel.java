@@ -10,11 +10,11 @@ import com.mongodb.client.result.UpdateResult;
 import com.mongodb.client.result.DeleteResult;
 
 
-public class UsuarioModel {
+public class TelefonosModel {
     private final MongoCollection<Document> collection;
 
-    public UsuarioModel (MongoDatabase database){
-        collection = database.getCollection("usuarios");
+    public TelefonosModel (MongoDatabase database){
+        collection = database.getCollection("telefonos");
     }
 
     public void guardar(Document document){
@@ -22,25 +22,25 @@ public class UsuarioModel {
     }
 
     public void obtener(){
-        FindIterable<Document> usuarios = collection.find();
+        FindIterable<Document> telefonos = collection.find();
 
-        for(Document usuario : usuarios){
-            ObjectId id = usuario.getObjectId("_id");
-            String nombre = usuario.getString("nombre");
-            int edad = usuario.getInteger("edad");
-            System.out.println("ID: " + id.toHexString() + ", Nombre: " + nombre + ", Edad: " + edad);
+        for(Document telefono : telefonos){
+            ObjectId id = telefono.getObjectId("_id");
+            String numero = telefono.getString("numero");
+            String tipo = telefono.getString("tipo");
+            System.out.println("ID: " + id.toHexString() + ", Número: " + numero + ", Tipo: " + tipo);
         }
     }
 
     public Optional<Document> obtenerPorId(Document document){
-        Document usuario = collection.find(document).first();
+        Document telefono = collection.find(document).first();
 
-        if(!Objects.isNull(usuario)){
-            ObjectId id = usuario.getObjectId("_id");
-            String nombre = usuario.getString("nombre");
-            int edad = usuario.getInteger("edad");
-            System.out.println("ID: " + id.toHexString() + ", Nombre: " + nombre + ", Edad: " + edad);
-            return Optional.of(usuario);
+        if(!Objects.isNull(telefono)){
+            ObjectId id = telefono.getObjectId("_id");
+            String numero = telefono.getString("numero");
+            String tipo = telefono.getString("tipo");
+            System.out.println("ID: " + id.toHexString() + ", Número: " + numero + ", Tipo: " + tipo);
+            return Optional.of(telefono);
         }
         return Optional.empty();
     }

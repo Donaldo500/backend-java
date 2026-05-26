@@ -1,33 +1,33 @@
 package com.ebac.SQL;
-import com.ebac.SQL.model.UsuarioModel;
+import com.ebac.SQL.model.TelefonosModel;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
-import com.ebac.SQL.dto.Usuario;
+import com.ebac.SQL.dto.telefonos;
 
 public class Contexto {
     public static void main(String[] args) {
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("coneccionLocalMySQL");
         EntityManager entityManager = entityManagerFactory.createEntityManager();
-        UsuarioModel usuarioModel = new UsuarioModel(entityManager);
+        TelefonosModel telefonoModel = new TelefonosModel(entityManager);
 
-        Usuario usuarioJuan = new Usuario();
-        usuarioJuan.setNombre("Juan");
-        usuarioJuan.setEdad(20);
-        usuarioModel.guardar(usuarioJuan);
+        telefonos telefonoJuan = new telefonos();
+        telefonoJuan.setNumero("+52 55 2349 1234");
+        telefonoJuan.setTipo("Oficina");
+        telefonoModel.guardar(telefonoJuan);
 
-        Usuario usuario = usuarioModel.obtenerPorId(1);
-        System.out.println("Usuario obtenido: " + usuario.getNombre() + ", Edad: " + usuario.getEdad());
+        telefonos telefonoJuanObtenido = telefonoModel.obtenerPorId(1);
+        System.out.println("Telefono obtenido: " + telefonoJuanObtenido.getNumero() + ", Tipo: " + telefonoJuanObtenido.getTipo());
 
-        usuario.setEdad(50);
-        usuarioModel.actualizar(usuarioJuan);
+        telefonoJuanObtenido.setTipo("Celular");
+        telefonoModel.actualizar(telefonoJuan);
 
-        Usuario usuarioJuanActualizado = usuarioModel.obtenerPorId(1);
-        System.out.println("Usuario actualizado: " + usuarioJuanActualizado.getNombre() + ", Edad: " + usuarioJuanActualizado.getEdad());
+        telefonos telefonoJuanActualizado = telefonoModel.obtenerPorId(1);
+        System.out.println("Telefono actualizado: " + telefonoJuanActualizado.getNumero() + ", Tipo: " + telefonoJuanActualizado.getTipo());
 
-        usuarioModel.eliminar(usuario);
-        usuario = usuarioModel.obtenerPorId(1);
-        System.out.println("Usuario después de eliminación: " + (usuario == null ? "No encontrado" : usuario.getNombre()));
+        telefonoModel.eliminar(telefonoJuan);
+        telefonoJuan = telefonoModel.obtenerPorId(1);
+        System.out.println("Telefono después de eliminación: " + (telefonoJuan == null ? "No encontrado" : telefonoJuan.getNumero()));
 
         entityManager.close();
         entityManagerFactory.close();

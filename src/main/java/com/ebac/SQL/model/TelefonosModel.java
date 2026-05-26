@@ -1,6 +1,6 @@
 package com.ebac.SQL.model;
 import jakarta.persistence.EntityManager;
-import com.ebac.SQL.dto.Usuario;
+import com.ebac.SQL.dto.telefonos;
 import jakarta.persistence.EntityTransaction;
 import java.util.List;
 import jakarta.persistence.criteria.CriteriaBuilder;
@@ -8,63 +8,61 @@ import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
 import jakarta.persistence.TypedQuery;
 
-public class UsuarioModel {
+public class TelefonosModel {
     private final EntityManager entityManager;
 
-    public UsuarioModel(EntityManager entityManager) {
+    public TelefonosModel(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
 
-    public void guardar(Usuario usuario) {
+    public void guardar(telefonos telefono) {
         EntityTransaction transaction = entityManager.getTransaction();
 
         try {
             transaction.begin();
-            entityManager.persist(usuario);
+            entityManager.persist(telefono);
             transaction.commit();
         } catch (Exception e) {
             transaction.rollback();
         }
     }
 
-    public void actualizar (Usuario usuario){
+    public void actualizar (telefonos telefono){
         EntityTransaction transaction = entityManager.getTransaction();
 
         try {
             transaction.begin();
-            entityManager.merge(usuario);
+            entityManager.merge(telefono);
             transaction.commit();
         } catch (Exception e) {
             transaction.rollback();
         }
     }
 
-    public Usuario obtenerPorId(int id) {
-        return entityManager.find(Usuario.class, id);
+    public telefonos obtenerPorId(int id) {
+        return entityManager.find(telefonos.class, id);
     }
 
-    public void eliminar(Usuario usuario) {
+    public void eliminar(telefonos telefono) {
         EntityTransaction transaction = entityManager.getTransaction();
 
         try {
             transaction.begin();
-            entityManager.remove(usuario);
+            entityManager.remove(telefono);
             transaction.commit();
         } catch (Exception e) {
             transaction.rollback();
         }
     }
 
-    public List<Usuario> obtenerUsuarios() {
+    public List<telefonos> obtenerTelefonos() {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
-        CriteriaQuery<Usuario> cq = cb.createQuery(Usuario.class);
+        CriteriaQuery<telefonos> cq = cb.createQuery(telefonos.class);
 
-        Root<Usuario> rootEntry = cq.from(Usuario.class);
-        CriteriaQuery<Usuario> select = cq.select(rootEntry);
+        Root<telefonos> rootEntry = cq.from(telefonos.class);
+        CriteriaQuery<telefonos> select = cq.select(rootEntry);
         
-        TypedQuery<Usuario> query = entityManager.createQuery(select);
+        TypedQuery<telefonos> query = entityManager.createQuery(select);
         return query.getResultList();
     }
-
-  
 }

@@ -1,5 +1,5 @@
 package com.ebac.MongoDB;
-import com.ebac.MongoDB.model.UsuarioModel;
+import com.ebac.MongoDB.model.TelefonosModel;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoDatabase;
@@ -11,37 +11,30 @@ public class Contexto {
     public static void main(String[] args) {
         String connectionString = "mongodb://root:toor@localhost:27017";
         MongoClient mongoClient = MongoClients.create(connectionString);
-        MongoDatabase database = mongoClient.getDatabase("modulo36");
+        MongoDatabase database = mongoClient.getDatabase("modulo37");
 
-        UsuarioModel usuarioModel = new UsuarioModel(database);
+        TelefonosModel telefonoModel = new TelefonosModel(database);
 
-        //Crear usuario
-        Document document = new Document("nombre", "John Doe")
-                .append("edad", 30)
-                .append("profesion", "Programdor java");
-        usuarioModel.guardar(document);
+        Document document = new Document("numero", "+55 123 456 7894")
+                .append("tipo", "Celular");
+        telefonoModel.guardar(document);
 
-        //Listar Usuarios
-        usuarioModel.obtener();
+        telefonoModel.obtener();
 
-        //Listar usuarios por id
         ObjectId objectId = new ObjectId("64a1f8e5c9e77b2f8c8b4567");
         Document documentoABuscar = new Document("_id", objectId);
-        Optional<Document> usuarioEncontrado= usuarioModel.obtenerPorId(documentoABuscar);
+        Optional<Document> telefonoEncontrado= telefonoModel.obtenerPorId(documentoABuscar);
 
-        //Actualiza usuario
-        usuarioEncontrado.ifPresent(usuarioActual -> {
-            Document document1 = new Document("nombre", "PedroActualizado").append("edad", 20);
-            Document usuarioActualizado = new Document("$set", document1);
+        telefonoEncontrado.ifPresent(telefonoActual -> {
+            Document document1 = new Document("numero", "+55 123 456 7444").append("tipo", "Fijo");
+            Document telefonoActualizado = new Document("$set", document1);
 
-            usuarioModel.actualizar(documentoABuscar, usuarioActualizado);
+            telefonoModel.actualizar(documentoABuscar, telefonoActualizado);
         });
-        usuarioModel.obtener();
+        telefonoModel.obtener();
 
-        //Eliminar usuario
-        usuarioModel.obtener();
-        usuarioEncontrado.ifPresent(usuario -> usuarioModel.eliminar(usuario));
-        usuarioModel.obtener();
-        
+        telefonoModel.obtener();
+        telefonoEncontrado.ifPresent(telefono -> telefonoModel.eliminar(telefono));
+        telefonoModel.obtener();
     }
 }
