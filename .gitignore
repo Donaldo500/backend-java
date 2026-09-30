@@ -1,0 +1,6 @@
+# Salida de compilacion de Maven
+target/
+
+# IDE
+.idea/
+*.iml
